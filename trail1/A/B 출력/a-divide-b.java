@@ -1,7 +1,5 @@
 import java.util.*;
 import java.io.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class Main {
     public static void main(String[] args) throws Exception{
@@ -12,14 +10,15 @@ public class Main {
 
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        // int A = Integer.parseInt(st.nextToken());
-        // int B = Integer.parseInt(st.nextToken());
+        int A = Integer.parseInt(st.nextToken());
+        int B = Integer.parseInt(st.nextToken());
         
-        BigDecimal test = new BigDecimal(st.nextToken());
-        BigDecimal test2 = new BigDecimal(st.nextToken());
+        System.out.printf("%d.", A/B);
 
-        BigDecimal result = test.divide(test2, 20, RoundingMode.DOWN);
-
-        System.out.println(result);
+        int n = A%B *10;
+        for(int i = 0; i < 20; i++) {
+            System.out.printf("%d", n/B);
+            n = n%B *10;
+        }
     }
 }
