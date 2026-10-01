@@ -3,6 +3,8 @@ public class Main {
     static char[] arr = new char[101];
     static int minLeft, maxRight;
     static int ans = 0;
+    static int[] prefixG = new int[102];
+    static int[] prefixH = new int[102];
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();        
@@ -17,6 +19,7 @@ public class Main {
             minLeft = Math.min(position, minLeft);
         }
         // Please write your code here.
+        prefixCal();
         solve();    
 
         System.out.print(ans);
@@ -39,23 +42,36 @@ public class Main {
     }
 
     public static boolean check(int l, int r) {
-        int G = 0;
-        int H = 0;
+        int G = prefixG[r] - prefixG[l];
+        int H = prefixH[r] - prefixH[l];
 
-        for (int i = l; i <= r; i++) {
-            if(arr[i] == 'G') {
-                G++;
-            }
-
-            if(arr[i] == 'H') {
-                H++;
-            }
+        if(arr[l] == 'G') {
+            G++;
+        } else {
+            H++;
         }
 
         if(G == 0 || H == 0 || G == H) {
             return true;
         }
-
+        
         return false;
+    }
+
+    static void prefixCal() {
+        int G = 0;
+        int H = 0;
+
+        for (int l = minLeft; l <= maxRight; l++) {           
+            if(arr[l] == 'G') {
+                G++;
+            }
+
+            if(arr[l] == 'H') {
+                H++;
+            }
+            prefixG[l] = G;
+            prefixH[l] = H;
+        }
     }
 }
