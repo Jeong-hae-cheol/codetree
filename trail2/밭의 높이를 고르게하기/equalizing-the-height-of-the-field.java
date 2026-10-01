@@ -1,32 +1,40 @@
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class Main {
+
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
+
         int n = sc.nextInt();
         int h = sc.nextInt();
-        int t = sc.nextInt();        
-        int[] arr = new int[n];
+        int t = sc.nextInt();
+
         int[] costs = new int[n];
 
         for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();            
-            costs[i] = Math.abs(arr[i] - h);
+            int value = sc.nextInt();
+            costs[i] = Math.abs(value - h);
         }
-        // Please write your code here.
-        
-        int ans = Integer.MAX_VALUE;
 
-        for (int i = 0; i < n-t+1; i++) {
-            int sum = 0;
-            for (int j = 0; j < t; j++) {
-                sum += costs[i+j];
-            }
+        int sum = 0;
+
+        // 첫 번째 t개 구간
+        for (int i = 0; i < t; i++) {
+            sum += costs[i];
+        }
+
+        int ans = sum;
+
+        // 한 칸씩 오른쪽으로 이동
+        for (int i = t; i < n; i++) {
+
+            sum -= costs[i - t];
+            sum += costs[i];
+
             ans = Math.min(ans, sum);
         }
 
-        System.out.print(ans);
-    
+        System.out.println(ans);
     }
 }
