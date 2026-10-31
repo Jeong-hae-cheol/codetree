@@ -27,10 +27,7 @@ public class Main {
                     d2 = Math.min(d, d2);
                 }
             }
-
-            if(d1 == b+1 || d2 == b+1) {
-                continue;
-            }
+            
 
             if(d1 <= d2) {
                 ans++;
