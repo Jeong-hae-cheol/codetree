@@ -11,8 +11,8 @@ public class Main {
         }
         // Please write your code here.
         int ans = 100;
-        for (int i = 0; i <= 100; i++) {
-            for (int j = 0; j <= 100; j++) {
+        for (int i = 0; i <= 100; i+=2) {
+            for (int j = 0; j <= 100; j+=2) {
                 int[] arr = new int[4];
                 for(int k = 0; k < n; k++) {
                     if(x[k] > i) {
