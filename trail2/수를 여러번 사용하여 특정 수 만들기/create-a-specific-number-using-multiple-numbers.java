@@ -9,13 +9,11 @@ public class Main {
         int ans = 0;
 
         for (int i = 0; A*i <= C; i++) {
-            for (int j = 0; B*j <= C; j++) {
-                int sum = A*i + B*j;
+            int cnt = A*i;
+            int numB = (C-cnt)/B;
 
-                if(sum <= C) {
-                    ans = Math.max(ans, sum);
-                }                
-            }
+            cnt += B * numB;
+            ans = Math.max(ans, cnt);
         }
 
         System.out.print(ans);
