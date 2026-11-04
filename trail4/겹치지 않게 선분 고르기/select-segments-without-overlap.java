@@ -1,47 +1,70 @@
+import java.util.ArrayList;
 import java.util.Scanner;
+
+class Pair {
+    int l, r;
+
+    Pair(int l, int r) {
+        this.l = l;
+        this.r = r;
+    }
+}
 
 public class Main {
     static int n, ans;
-    static int[][] segments;
-    static int[] visited = new int[1001];
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        segments = new int[n][2];
-        for (int i = 0; i < n; i++) {
-            segments[i][0] = sc.nextInt();
-            segments[i][1] = sc.nextInt();
-        }
-        // Please write your code here.
-        solve(0, 0);
+    static Pair[] segments;
+    static ArrayList<Pair> pairs = new ArrayList<>();
 
-        System.out.println(ans);
+    public static boolean overlapped(Pair p1, Pair p2) {
+        // if(p1.r < p2.l || p2.r < p1.l) {
+        //     return true;
+        // }
+
+        return p1.r < p2.l || p2.r < p1.l;
     }
 
-    static void solve(int count, int position) {
-        if (position >= n) {
-            ans = Math.max(ans, count);
+    public static boolean possible() {
+        for (int i = 0; i < pairs.size() - 1; i++) {
+            for (int j = i + 1; j < pairs.size(); j++) {
+                if (!overlapped(pairs.get(i), pairs.get(j))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void solve(int cnt) {
+        if (cnt == n) {
+            if(possible()) {
+                ans = Math.max(ans, pairs.size());
+            }
             return;
         }
 
-        int l = segments[position][0];
-        int r = segments[position][1];
+        pairs.add(segments[cnt]);
 
-        boolean flag = true;
+        solve(cnt + 1);
 
-        for (int i = l; i <= r; i++) {
-            if (visited[i] != 0)
-                flag = false;
-            visited[i]++;
+        pairs.remove(pairs.size() - 1);
+
+        solve(cnt + 1);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        segments = new Pair[n];
+        for (int i = 0; i < n; i++) {
+            int l = sc.nextInt();
+            int r = sc.nextInt();
+
+            segments[i] = new Pair(l, r);
         }
+        // Please write your code here.
 
-        solve(flag ? count + 1 : count, position + 1);
-
-        for (int i = l; i <= r; i++) {
-            visited[i]--;
-        }
-
-        solve(count, position + 1);
-
+        solve(0);
+        
+        System.out.println(ans);
     }
 }
