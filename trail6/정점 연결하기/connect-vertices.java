@@ -1,69 +1,62 @@
-import java.io.*;
-import java.util.*;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 public class Main {
-    public static BufferedReader br = new BufferedReader(
-        new InputStreamReader(System.in)
-    );
-    public static StringTokenizer st = new StringTokenizer("");
-    
-    public static String nextToken() throws IOException {
-        while(!st.hasMoreTokens()) {
-            st = new StringTokenizer(br.readLine());
-        }
-
-        return st.nextToken();
-    }
-
-    public static final int MAX_N = 100000;
-
+    public static int MAX = 100000;
     public static int n;
-
-    public static int[] uf = new int[MAX_N + 1];
-
-    public static void initialize() {
-        for(int i = 1; i <= n; i++) {
-            uf[i] = i;
-        }
-    }
+    public static int[][] edges = new int[MAX + 1][2];
+    public static int[] uf = new int[MAX+1];
 
     public static int find(int x) {
         if(uf[x] == x) {
             return x;
         }
 
-        // int rootNode = find(uf[x]);
-        // uf[x] = rootNode;
-        // return rootNode;
         return uf[x] = find(uf[x]);
     }
 
-    public static void union(int a, int b) {
-        int A = find(a);
-        int B = find(b);
+    public static void union(int x, int y) {
+        int X = find(x);
+        int Y = find(y);
 
-        uf[A] = B;
+        if(X != Y) {
+            uf[X] = Y;
+        }
     }
-    
-    public static void main(String[] args) throws IOException {
-        n = Integer.parseInt(nextToken());
 
-        initialize();
-        
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(
+            new InputStreamReader(System.in)
+        );        
+        n = Integer.parseInt(br.readLine());        
         for (int i = 0; i < n - 2; i++) {
-            int a = Integer.parseInt(nextToken());
-            int b = Integer.parseInt(nextToken());
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            edges[i][0] = Integer.parseInt(st.nextToken());
+            edges[i][1] = Integer.parseInt(st.nextToken());
+        }
+        // Please write your code here.
 
-            union(a, b);
+        // uf 초기화
+        for (int i = 1; i <= n; i++) {
+            uf[i] = i;
+        }
+
+        for (int i = 0; i < n-2; i++) {
+            int x = edges[i][0];
+            int y = edges[i][1];
+
+            union(x, y);
         }
         
         int rootNode = find(1);
 
-        for(int i = 2; i <= n; i++) {
+        for (int i = 2; i <= n; i++) {
             if(rootNode != find(i)) {
-                System.out.println(1 + " " + i);
+                System.out.print(1 + " " + i);
                 break;
             }
         }
+
     }
 }
